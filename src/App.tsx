@@ -1,9 +1,12 @@
-import './App.scss';
+import Timer from "./components/Timer";
 
 function App() {
   return (
-    <div className="App">
-      sj
+    <div className="flex">
+
+      <Timer />
+      {/* <Timers />
+      <Addtimer /> */}
     </div>
   );
 }
