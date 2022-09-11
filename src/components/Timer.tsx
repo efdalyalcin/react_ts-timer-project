@@ -2,14 +2,13 @@ import { useCallback, useEffect, useState } from "react"
 import { useTimer } from "../context/timerContext";
 
 export default function Timer() {
+  const {timer} = useTimer();
+  
   const [date, setDate] = useState('01.01.2012');
   const [time, setTime] = useState('00:00:00');
   
-  const {timer} = useTimer();
-  const [countDown, setCountDown] = useState(10);
+  const [countDown, setCountDown] = useState(timer.toFixed(2));
   const [isExpired, setIsExpired] = useState(false);
-
-  console.log('render', countDown)
 
   const handleTime = useCallback(
     () =>  {
@@ -44,39 +43,54 @@ export default function Timer() {
     [],
   );
 
+  // handle date and time functions
   useEffect(
     () => {
       handleTime();
       handleDate();
     },
-    [],
+    [handleTime, handleDate],
   );
 
+  // handle isExpired
   useEffect(
     () => {
-      if (countDown <= 0) {
+      if (+countDown <= 0) {
         setIsExpired(true);
       }
     },
     [countDown]
   );
 
+  // handle interval
   useEffect(
     () => {
       let interval: number;
       if (!isExpired) {
         interval = window.setInterval(() => {
-          setCountDown((prev) => (prev - 1))
-        }, 1000)
+          setCountDown((prev) => (Number(prev) - 0.01).toFixed(2))
+        }, 10 )
       } 
       return () => clearInterval(interval);
     },
     [isExpired],
   )
+  
+  if (isExpired) return null;
 
   return (
-    <div>
-      {date}-{time} - {timer} - {countDown}
+    <div className="flex flex-col gap-2 p-3 bg-gray-300 rounded-lg relative">
+      <button 
+        type="button"
+        className="absolute right-3 top-1 font-bold"
+        onClick={() => setIsExpired(true)}
+      >
+        X
+      </button>
+      <div className="text-2xl font-bold">
+        {countDown.replace('.', ',')}
+      </div>
+      <p>{`${date} ${time}`}</p>
     </div>
   )
 }
