@@ -5,7 +5,7 @@ type Props = {
 };
 
 export default function AddTimer({handleAddTimer}: Props) {
-  const [newTime, setNewTime] = useState<number>(0);
+  const [newTime, setNewTime] = useState<number>(10);
 
   return (
     <form className="w-1/2 flex flex-col p-2 items-center gap-3">
