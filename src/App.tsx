@@ -1,17 +1,33 @@
 import { useState } from "react";
+import AddTimer from "./components/AddTimer";
 import Timer from "./components/Timer";
 
 function App() {
-  const [timers, setTimers] = useState<(JSX.Element | null)[]>([<Timer />]);
+  const [timers, setTimers] = useState<(JSX.Element | null)[]>([]);
+  
+  const handleExpiredTimers = (isExpired: boolean) => {
+    setTimers([...timers].filter(timer => !isExpired))
+  };
 
-  console.log(timers);
+  const handleAddTimer = (newTime: number) => {
+    const newDate = new Date();
+
+    setTimers(
+      [...timers,
+        <Timer 
+          initialTime={newTime}
+          date={newDate}
+          handleExpiredTimers={handleExpiredTimers}
+        />
+      ]);
+  };
 
   return (
     <div className="flex p-5 gap-6">
-      <div className="w-1/2">
+      <div className="w-1/2 flex flex-col gap-3">
         {timers.map(timer => (
           <div 
-            key={Date.now()}
+            key={Math.random()}
             className="flex flex-col gap-3"
           >
             {timer}
@@ -19,13 +35,7 @@ function App() {
         ))}
       </div>
 
-      <form className="w-1/2">
-        <p className="text-2xl font-bold">New Timer</p>
-        <input 
-          type="number"
-          
-        />
-      </form>
+      <AddTimer handleAddTimer={handleAddTimer} />
     </div>
   );
 }
