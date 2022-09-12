@@ -3,13 +3,15 @@ import { useCallback, useEffect, useState } from "react";
 type Props = {
   initialTime: number;
   date: Date;
-  handleExpiredTimers: (isExpired: boolean) => void;
+  handleExpiredTimers: (isExpired: boolean, id: number) => void;
+  id: number;
 };
 
 export default function Timer({
   initialTime,
   date,
   handleExpiredTimers,
+  id
 }: Props) {
   const [timerDate, setTimerDate] = useState("01.01.2012");
   const [time, setTime] = useState("00:00:00");
@@ -52,7 +54,7 @@ export default function Timer({
   useEffect(() => {
     handleTime();
     handleDate();
-  }, []);
+  }, [handleTime, handleDate]);
 
   // handle isExpired
   useEffect(() => {
@@ -75,7 +77,7 @@ export default function Timer({
   // handle expired Timers on App
   useEffect(() => {
     if (isExpired) {
-      handleExpiredTimers(isExpired);
+      handleExpiredTimers(isExpired, id);
     }
   }, [isExpired]);
 

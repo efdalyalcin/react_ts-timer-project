@@ -2,8 +2,7 @@
 
 interface Timer {
   id: number;
-  time: number;
-  createdTime: number;
+  content: JSX.Element;
 }
 
 interface TimerContextType {
