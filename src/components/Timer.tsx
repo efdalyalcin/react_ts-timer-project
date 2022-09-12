@@ -3,16 +3,9 @@ import { useCallback, useEffect, useState } from "react";
 type Props = {
   initialTime: number;
   date: Date;
-  handleExpiredTimers: (isExpired: boolean, id: number) => void;
-  id: number;
 };
 
-export default function Timer({
-  initialTime,
-  date,
-  handleExpiredTimers,
-  id
-}: Props) {
+export default function Timer({ initialTime, date }: Props) {
   const [timerDate, setTimerDate] = useState("01.01.2012");
   const [time, setTime] = useState("00:00:00");
 
@@ -56,14 +49,14 @@ export default function Timer({
     handleDate();
   }, [handleTime, handleDate]);
 
-  // handle isExpired
+  // handle time expiration
   useEffect(() => {
     if (+countDown <= 0) {
       setIsExpired(true);
     }
   }, [countDown]);
 
-  // handle interval
+  // handle count down interval
   useEffect(() => {
     let interval: number;
     if (!isExpired) {
@@ -72,13 +65,6 @@ export default function Timer({
       }, 10);
     }
     return () => clearInterval(interval);
-  }, [isExpired]);
-
-  // handle expired Timers on App
-  useEffect(() => {
-    if (isExpired) {
-      handleExpiredTimers(isExpired, id);
-    }
   }, [isExpired]);
 
   if (isExpired) return null;

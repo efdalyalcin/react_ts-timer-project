@@ -8,7 +8,7 @@ export default function AddTimer({handleAddTimer}: Props) {
   const [newTime, setNewTime] = useState<number>(0);
 
   return (
-    <form className="w-1/2 flex flex-col ">
+    <form className="w-1/2 flex flex-col p-2 items-center gap-3">
       <p className="text-2xl font-bold">New Timer</p>
       <input 
         type="number"
@@ -20,6 +20,7 @@ export default function AddTimer({handleAddTimer}: Props) {
       <button 
         type="button"
         onClick={() => handleAddTimer(newTime)}
+        className="w-1/2 border bg-gray-300 rounded-md"
       >
         Add 
       </button>
